@@ -1,0 +1,124 @@
+{% extends 'admin_base.html'%}
+{% load static %}
+{% block content %}
+
+
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <!--  <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+                    <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+                        For more information about DataTables, please visit the <a target="_blank"
+                            href="https://datatables.net">official DataTables documentation</a>.</p>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">User List</h6>
+                        </div>
+                        <div class="card-header py-3">
+                            <a href="{% url 'venue_pdf' %}"><h6 class="m-0 font-weight-bold text-primary">pdf</h6></a>
+                        </div>
+                        <div class="card-header py-3">
+                            <a href="{% url 'venue_csv' %}"><h6 class="m-0 font-weight-bold text-primary">excel</h6></a>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr class="text-dark">
+                                           
+                                            <th>Sl.NO</th>
+                        
+                                            
+                                            <th>Username</th>
+                                            <th>Product name</th>
+                                            <th>Placed Date</th>
+                                            <th>Image</th>
+                                            <th>Price</th>
+                                            <th>Categorey</th>
+                                            <th>Delivery Address</th>
+                                            <th>Payment type</th>
+                                            <th>Order Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                  <!---   <tfoot>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Office</th>
+                                            <th>Age</th>
+                                            <th>Start date</th>
+                                            <th>Salary</th>
+                                        </tr>
+                                    </tfoot> -->
+                                    <tbody>
+                                        {% for i in adorders %}                           
+                                        <tr>
+                                            <td>{{ i.id }}</td>
+                                            <td>{{ i.name.user_name }}</td>
+                                            <td>{{ i.product.book_title }}</td>               
+                                            <td>{{ i.order_date }}</td>
+                                            <td><img src="{{ i.product.image.url }}" style="height: 25px; width:25px"></td>
+                                            <td>{{ i.product.price }}</td>
+                                            <td>{{ i.product.p_category.cate_name }}</td>
+                                            <td>{{ i.address.name }}{{ i.address.street_address }}</td>
+                                            <td>{{ i.payment_type }}</td>
+                                            <td>{{ i.order_status }}</td>
+                                            <td>
+                                                <a href ="{% url 'admin_updateorderstatus' %}?uid={{i.id}}" class="btn btn-primary ">
+                                                    <i calss="btn text-secondary "> Update Order</i></a>
+                                            </td>
+                                            <!-- <td >
+                                                <a href ="{% url 'admin_updateuser' %}?uid={{i.id}}" class="btn btn-primary ">
+                                                  <i calss="btn text-secondary "> Pending</i></a>
+
+                                                  <td>
+                                                    {% if i.u_active %}
+                                                <a href ="{% url 'userblock' %}?uid={{ i.id }}" class="btn  bg-success ; text-white"><span>Block</span></a>
+                                                {% else %}
+                                                <a href ="{% url 'userblock' %}?uid={{ i.id }}" class="btn badge-danger ; text-center"><span>Unblock</span></a>
+                                                  {% endif %}
+                                                   -->
+                                        </tr>
+                                        {% endfor%}
+                                        {% include 'pagination.html' with page=tablelist %}
+                                        <!---  <tr>
+                                            <td>Garrett Winters</td>
+                                            <td>Accountant</td>
+                                            <td>Tokyo</td>
+                                            <td>63</td>
+                                            <td>2011/07/25</td>
+                                            <td>$170,750</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ashton Cox</td>
+                                            <td>Junior Technical Author</td>
+                                            <td>San Francisco</td>
+                                            <td>66</td>
+                                            
+                                            <td>27</td>
+                                            <td>2011/01/25</td>
+                                            <td>$112,000</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+           
+
+
+{% endblock %}

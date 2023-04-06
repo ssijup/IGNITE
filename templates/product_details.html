@@ -1,0 +1,499 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+
+        <!--====== App Content ======-->
+        <div class="app-content">
+
+            <!--====== Section 1 ======-->
+            <div class="u-s-p-t-90">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-5">
+
+                            <!--====== Product Breadcrumb ======-->
+                            <div class="pd-breadcrumb u-s-m-b-30">
+                                <!-- <ul class="pd-breadcrumb__list">
+                                    <li class="has-separator">
+
+                                        <a href="{% url 'index_3_home' %}">Home</a></li>
+                                    <li class="has-separator">
+
+                                        <a href="shop-side-version-2.html">Electronics</a></li>
+                                    <li class="has-separator">
+
+                                        <a href="shop-side-version-2.html">DSLR Cameras</a></li>
+                                    <li class="is-marked">
+
+                                        <a href="shop-side-version-2.html">Nikon Cameras</a></li>
+                                </ul> -->
+                            </div>
+                            <!--====== End - Product Breadcrumb ======-->
+
+
+                            <!--====== Product Detail Zoom ======-->
+                            
+
+                            <div class="pd u-s-m-b-30">
+                               
+                                <div class="slider-fouc pd-wrap">
+                                    <div id="pd-o-initiate">
+                                        <div class="pd-o-img-wrap MagicZoom"  data-src="{{ list.image.url }}" data-z  om-image="{{ list.image.url }} " id="zoom">
+                                           
+                                            <img class="u-img-fluid" src="{{ list.image.url }}" data-zoom-image="{{ list.image.url }}" id="zoom" alt=""></div>
+                                            {% for i in mul_img %}
+
+                                        <div class="pd-o-img-wrap" data-src="{{ i.multiple_image.url }}">
+                                            
+                                            <img class="u-img-fluid" src="{{ i.multiple_image.url }}" data-zoom-image="{{ i.multiple_image.url }}"id="zoom" alt=""></div>
+                                            {% endfor %}
+                                        
+                                            
+                                    </div>
+                                   
+
+                                    <span class="pd-text text-area--primary-style">Click for larger zoom</span>
+                                </div>
+                                <div class="u-s-m-t-15">
+                                    <div class="slider-fouc">
+                                        <div id="pd-o-thumbnail">
+                                            {% for i in mul_img %}
+                                            <div>
+
+                                                <img class="u-img-fluid" style="height:170px" src="{{ i.multiple_image.url }}" alt="" id="zoom" >
+                                            </div>
+                                            {% endfor %}
+                                            <!-- <div>
+
+                                                <img class="u-img-fluid" src="{{ list.image.url }}" alt="" id="zoom"></div>
+                                            <div >
+
+                                                <img class="u-img-fluid" src="{{ list.image.url }}" alt="" id="zoom"></div>
+                                            <div>
+
+                                                <img class="u-img-fluid" src="{{ list.image.url }}" alt="" id="zoom">
+                                            </div> -->
+                                            <div>
+
+                                                <img class="u-img-fluid" src="{{ list.image.url }}" alt="" id="zoom" ></div>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                         
+                            <!--====== End - Product Detail Zoom ======-->
+                        </div>
+                        <div class="col-lg-7">
+
+                            <!--====== Product Right Side Details ======-->
+                            <div class="pd-detail">
+                              
+                                <div>
+
+                                    <span class="pd-detail__name">{{ list.book_title }}</span></div>
+                                    
+                                <div>
+                                    <div class="pd-detail__inline">
+                                       
+                                        <span class="pd-detail__price" id="product_variant_price">{% if list.p_category.catewise_dicount_price %}₹{{list.get_default_price.discount_price}} <h4 style="color:rgba(2, 4, 0, 0.805); display: inline-block;"><del>₹{{list.get_default_price.price }} </del><h4 style="color: rgb(9, 163, 9);">  You will save ₹{{list.p_category.catewise_dicount_price}} </h4></h4>{% else %} ₹{{prod_variant_option_price}} {% endif %}</span>
+                                        
+                                        <span class="pd-detail__discount"></span><del class="pd-detail__del"></del></div>
+                                </div>
+                                <div class="u-s-m-b-15">
+                                    <div class="pd-detail__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+
+                                        <span class="pd-detail__review u-s-m-l-4">
+
+                                            <a data-click-scroll="#view-review"> </a></span></div>
+                                </div>
+                                <div class="u-s-m-b-15">
+                                    <div class="pd-detail__inline">
+
+                                        <!-- <span class="pd-detail__stock"> stock</span> -->
+
+                                        <!-- <span class="pd-detail__left"> </span></div> -->
+                                </div>
+                                <div class="u-s-m-b-15">
+                                 
+                                    <span class="pd-detail__preview-desc">{{ list.description }}</span></div>
+                                   
+                                
+                                
+                                
+                                    <div class="u-s-m-b-15">
+                                        <div class="pd-detail__inline">
+                                            <button onclick="hii()" id="wish_btn" class="wishlist-button">
+                                                <i class="far fa-heart"></i>
+                                                <span class="wishlist-count"></span>Add to wishlist
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                <div class="u-s-m-b-15">
+                                    <!-- <form action="{% url 'product_details' %}?prod_uid={{list.id}}" method="POST">
+                                        {% csrf_token %} 
+                                    <select name="variantopt_uid" id="">
+                                        {% for i in prod_variantopt %}
+                                        <option value="{{i.id}}">
+                                                {{i.variantoption_name}}<br>
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+
+                                     <button class="btn btn--e-brand-b-2" type="submit">{{i.variantoption_name}}</button> -->
+                                   <!-- <button type="submit">SELECT</button>
+                                </form> --> 
+
+
+
+
+
+
+
+
+                                <!-- <form id="variantopt-form" action="{% url 'product_details' %}?prod_uid={{list.id}}" method="POST">
+                                    {% csrf_token %} 
+                                    <h3><strong>Select Variant</strong></h3>
+                                    {% for i in variantopt_obj %}
+                                        <input class="product_variant" type="radio" name="variantopt_uid" pid="{{i.id}}"   checked>  
+                                            
+                                             
+                                        <label class="manage-o__badge badge--processing">{{i.variantoption_name}}</label>
+                                    {% endfor %}
+                                </form> -->
+                                
+
+
+
+                                
+                                <!-- <form id="variantopt-form" action="{% url 'product_details' %}?prod_uid={{list.id}}" method="POST"> -->
+                                    
+                                    <h3><strong>Select Variant</strong></h3><br>
+                                    {% for i in variantopt_obj %}
+                                        <input class="product_variant" type="radio" name="product_variant_option"  pid="{{i.id}}" data-product-id="{{list.id}}" {% if forloop.first %}checked{% endif %}>  
+                                            
+                                        <label class="manage-o__badge badge--processing">{{i.variantoption_name}}{{i.unit}}</label>
+                                    {% endfor %}
+                                    <!-- <button class="btn btn--e-brand-b-2" id="creat_cart">Add to Cart</button> -->
+                                <!-- </form> -->
+
+                                </div><br>
+
+                                <div class="u-s-m-b-15 ">
+                                    <!-- <form class="pd-detail__form"> -->
+                                        <div class="pd-detail-inline-2">
+
+                                            <!-- <div class="u-s-m-b-15">
+
+                                                <button class="mini-link btn--e-brand-b-2"  type="submit"><h5>Buy Now</h></button></div> -->
+                                           
+
+
+
+
+
+
+                                        <div class="u-s-m-b-15">
+                                            <div class="pd-detail__form">
+                                                <div class="pd-detail-inline-2">
+                                                    <!-- <div class="u-s-m-b-15">
+        
+                                                        ====== Input Counter ======-->
+                                                        <!-- <div class="input-counter">
+        
+                                                            <a  class="input-counter__minus fas fa-minus minus-btnn" pid={{prod_variant_option_dis_id}}></a>
+                                                             
+                                                        
+                                                           
+                                                            <h5 style="padding-top: 4%;" class="input-counter__text input-counter--text-primary-style mt-5" type="text" min="1" value="1"  data-max="1000">{{quantity}}</h5>
+                                                         
+
+                                                            <a class="input-counter__plus fas fa-plus pluss-btnn" pid={{prod_variant_option_dis_id}}></a>
+                                                        
+                                                        </div> -->
+                                                        <!--====== End - Input Counter ======-->
+                                                    <!-- </div> --> 
+                                                    <div class="u-s-m-b-15">
+        
+                                                        <button class="btn btn--e-brand-b-2" id="creat_cart"><h5>Add to Cart</h1></button></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                            
+                                </div>
+                                <div class="u-s-m-b-15">
+
+                                    <span class="pd-detail__label u-s-m-b-8">Product Policy:</span>
+                                    <ul class="pd-detail__policy-list">
+                                        <li><i class="fas fa-check-circle u-s-m-r-8"></i>
+
+                                            <span>Buyer Protection.</span></li>
+                                        <li><i class="fas fa-check-circle u-s-m-r-8"></i>
+
+                                            <span>Full Refund if you don't receive your order.</span></li>
+                                        <li><i class="fas fa-check-circle u-s-m-r-8"></i>
+
+                                            <span>Returns accepted if product not as described.</span></li>
+                                    </ul>
+                                </div>
+                                
+                            </div>
+                            <!--====== End - Product Right Side Details ======-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--====== Product Detail Tab ======-->
+            
+            <!--====== End - Product Detail Tab ======-->
+            <div class="u-s-p-b-90">
+
+                <!--====== Section Intro ======-->
+                <div class="section__intro u-s-m-b-46">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="section__text-wrap">
+                                    <h1 class="section__heading u-c-secondary u-s-m-b-12">CUSTOMER ALSO VIEWED</h1>
+
+                                    <span class="section__span u-c-grey">PRODUCTS THAT CUSTOMER VIEWED</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--====== End - Section Intro ======-->
+
+
+                <!--====== Section Content ======-->
+                <div class="section__content">
+                    <div class="container">
+                        <div class="slider-fouc">
+                            <div class="owl-carousel product-slider" data-item="4">
+                                <!-- <div class="u-s-m-b-30">
+                                    <div class="product-o product-o--hover-on">
+                                        <div class="product-o__wrap">
+
+                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
+
+                                                <img class="aspect__img" src="images/product/electronic/product1.jpg" alt=""></a>
+                                            <div class="product-o__action-wrap">
+                                                <ul class="product-o__action-list">
+                                                    <li>
+
+                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a></li>
+                                                    <li>
+
+                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                    <li>
+
+                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                    <li>
+
+                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <span class="product-o__category">
+
+                                            <a href="shop-side-version-2.html">Electronics</a></span>
+
+                                        <span class="product-o__name">
+
+                                            <a href="product-detail.html">Beats Bomb Wireless Headphone</a></span>
+                                        <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+                                            <span class="product-o__review">(20)</span></div>
+
+                                        <span class="product-o__price">$125.00
+
+                                            <span class="product-o__discount">$160.00</span></span>
+                                    </div>
+                                </div> -->
+                                <!-- <div class="u-s-m-b-30">
+                                    <div class="product-o product-o--hover-on">
+                                        <div class="product-o__wrap">
+
+                                            <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
+
+                                                <img class="aspect__img" src="images/product/electronic/product2.jpg" alt=""></a>
+                                            <div class="product-o__action-wrap">
+                                                <ul class="product-o__action-list">
+                                                    <li>
+
+                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a></li>
+                                                    <li>
+
+                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                    <li>
+
+                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                    <li>
+
+                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <span class="product-o__category">
+
+                                            <a href="shop-side-version-2.html">Electronics</a></span>
+
+                                        <span class="product-o__name">
+
+                                            <a href="product-detail.html">Red Wireless Headphone</a></span>
+                                        <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+                                            <span class="product-o__review">(20)</span></div>
+
+                                        <span class="product-o__price">$125.00
+
+                                            <span class="product-o__discount">$160.00</span></span>
+                                    </div>
+                                </div> -->
+                                {% for i in prod_bot_dis %}
+                                <div class="u-s-m-b-30">
+                                    <div class="product-o product-o--hover-on">
+                                        
+                                        <div class="product-o__wrap">
+
+                                         <a class="aspect aspect--bg-grey aspect--square u-d-block" href="{% url 'product_details' %}">
+
+                                                <img class="aspect__img" src="{{i.image.url}}" alt=""></a>
+                                            <div class="product-o__action-wrap">
+                                                <!-- <ul class="product-o__action-list">
+                                                    <li>
+
+                                                        <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a></li>
+                                                    <li>
+
+                                                        <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
+                                                    <li>
+
+                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                                                    <li>
+
+                                                        <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
+                                                </ul> -->
+                                            </div>
+                                        </div>
+                                        
+
+                                        <span class="product-o__category">
+
+                                            <a href="">{{i.p_category.cate_name}}</a></span>
+
+                                        <span class="product-o__name">
+
+                                            <a href="{% url 'product_details' %}?uid={{i.id}}">{{i.book_title}}</a></span>
+                                        <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+                                            <!-- <span class="product-o__review">(20)</span></div>
+
+                                        <span class="product-o__price">$125.00
+
+                                            <span class="product-o__discount">$160.00</span></span> -->
+                                    </div>
+                                </div>
+                                
+                               
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <!--====== End - Section Content ======-->
+            </div>
+            <!--====== End - Section 1 ======-->
+        </div>
+        <!--====== End - App Content ======-->
+
+
+        <!-- <script>
+            function submitForm() {
+                document.getElementById("variantopt-form").submit();
+            }
+            </script> -->
+
+
+
+
+<!-- script linking the js file to display the variant price  -->   
+<script src="{% static 'js/myjs.js' %}"></script>
+
+
+
+<!-- script for id passin of product and variant id  -->
+<script>
+    $(document).ready(function() {
+        $('#creat_cart').click(function() {
+            var productId = $('.product_variant:checked').data('product-id');
+            var variantId = $('.product_variant:checked').attr('pid');
+            var url = '{% url "create_cart" %}?uid=' + productId + '&variant_option_id=' + variantId;
+            window.location.href = url;
+        });
+    });
+</script>
+
+
+<!-- creatig whishlist by getting product id and variant option -->
+<script>
+  $('.wish_btn').click(function() {
+  console.log('Button clicked'); // add this line
+  var productId = $('.product_variant:checked').data('product-id');
+  var variantId = $('.product_variant:checked').attr('pid');
+  var url = '{% url "user_wishlist" %}?uid=' + productId + '&variant_option_id=' + variantId;
+  window.location.href = url;
+});
+
+    </script>
+
+<script>
+    function hii(){
+        console.log('hii')
+        var productId = $('.product_variant:checked').data('product-id');
+        var variantId = $('.product_variant:checked').attr('pid');
+        console.log(productId,variantId)
+        var url = '{% url "user_wishlist" %}?uid=' + productId + '&variant_option_id=' + variantId;
+        window.location.href = url;
+    }
+</script>
+
+
+<!-- for color change to the whishlist heart -->
+<script>
+ $(document).ready(function() {
+  $('.wishlist-button').on('click', function() {
+    $(this).toggleClass('active');
+  });
+});
+</script>
+
+{% endblock%}

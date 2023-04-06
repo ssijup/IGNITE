@@ -1,0 +1,81 @@
+{% extends 'admin_base.html'%}
+{% load static %}
+{% block content %}
+
+
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <!--  <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+                    <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+                        For more information about DataTables, please visit the <a target="_blank"
+                            href="https://datatables.net">official DataTables documentation</a>.</p>
+
+                    DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Banner List</h6>
+                            
+                            
+                           <a href="{% url 'admin_addVedioBanner' %}"><button type="submit"
+                             class="btn bg-success btn-sm gradient-custom-4 text-white">Add Banner</button></a>
+                             <!-- <a href="{% url 'admin_subcategorylist' %}"><button type="submit"
+                             class="btn bg-gradient-primary  btn-sm gradient-custom-4 text-white">Show Subcategorylist</button>
+                            </a>
+                            <a href="{% url 'admin_variantlist' %}"><button type="submit"
+                                class="btn bg-gradient-primary  btn-sm gradient-custom-4 text-white">Show Varinatslist</button>
+                               </a> -->
+
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                           
+                                            <th>Sl.NO</th>
+
+                                            <th>Content Image</th>
+                                            
+                                            <th>Edit</th>
+                                            <th>Delete</th>
+                                           
+                                            
+                                        </tr>
+                                    </thead>
+                                  <!---   <tfoot>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Office</th>
+                                            <th>Age</th>
+                                            <th>Start date</th>
+                                            <th>Salary</th>
+                                        </tr>
+                                    </tfoot> -->
+                                    <tbody>
+                                        {% for i in banVedio %}
+                                        <tr>
+                                          <td>{{ forloop.counter }}</td>
+                                             <!---<td>{{ i.book_title }}</td>
+                                            <td>{{ i.author }}</td>
+                                            <td><img src="{{ i.picture.url }}" style="height: 25px; width:25px"></td>--> 
+                                            <td><img style="height: 50px; width: 50px;" src="{{ i.banVedio.url }}" alt=""></td>
+                                            <td >
+                                                <a href ="{% url 'admin_editbanner' %}?uid={{i.id}}" class="btn btn-primary">
+                                                  <i calss="btn text-secondary "> Edit</i>
+
+                                                  <td >
+                                                <a href ="" class="btn btn-danger">
+                                                  <i calss="btn-sm text-secondary ">Delete</i>
+                                        </tr>
+                                        {% endfor %}
+
+
+
+
+                     
+        {% endblock %}

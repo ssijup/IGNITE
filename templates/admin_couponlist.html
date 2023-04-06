@@ -1,0 +1,161 @@
+{% extends 'admin_base.html'%}
+{% load static %}
+{% block content %}
+
+
+
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <!--  <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+                    <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+                        For more information about DataTables, please visit the <a target="_blank"
+                            href="https://datatables.net">official DataTables documentation</a>.</p>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="text-primary ">Varient List</h6>
+                            
+                            
+                           <a href="{% url 'admin_addcoupon' %}"><button type="submit"
+                             class="btn bg-gradient-primary btn-block btn-lg gradient-custom-2 text-white">Add Coupon</button>
+                            </a>
+
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered " id="" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr class=" text-dark">
+                                           
+                                            <th>Sl.NO</th>
+                                            <th>Coupon Name</th>
+                                            <th>Coupon Discount Amount</th>
+                                            <th>Min total to avail coupon</th>
+                                            <th>Delete coupon</th> 
+                                            <!-- <th>Price</th> -->
+                                            <!-- <th>Add varient option</th> -->
+                                            <!--  <th> Stock</th>
+                                            <th>Category</th>
+                                            <th>Edit</th>
+                                            <th>Delete</th> -->
+                                            
+                                        </tr>
+                                    </thead>
+                                  <!---   <tfoot>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Office</th>
+                                            <th>Age</th>
+                                            <th>Start date</th>
+                                            <th>Salary</th>
+                                        </tr>
+                                    </tfoot> -->
+                                    <tbody>
+                                        {% for i in coupon_obj %}
+                                        <tr>
+                                            <td>{{ i.id }}</td>
+                                            <td>{{ i.coupon_name }}</td>
+                                            <td>{{ i.coupon_dis_amount }}</td>
+                                            <td>{{ i.coupon_minmun_amount }}</td>
+                                            <td><a href="{% url 'delete_coupon' %}?uid={{i.id}}" style="color: red;">Delete</a></td>
+                                            <!-- <td>{{ i.variantoption_name }}</td> -->
+                                            
+                                            <!-- <td>₹{{ i.product_stock }}/-</td> -->
+                                            <!-- <td>₹{{ i.price }}/-</td> -->
+                                            <!-- <td> <a href ="{% url 'admin_addvariantoptions'  %}?uid={{ i.id }}" class="btn btn-primary">
+                                                <i calss="btn text-secondary ">+Variant Option</i></a></td> -->
+                                            <!---  <td>{{ i.product_stock }}</td>
+                                            <td>{{ i.p_category }}</td> -->
+                                            <!-- <td >
+                                                <a class="waves-effect waves-light btn modal-trigger" href="{% url 'admin_editproducts' %}?uid={{ i.id }}"><i class="material-icons " style="color: rgb(4, 122, 248);">border_color</i></a>
+
+
+                                                  <td>
+                                                    <a class="waves-effect waves-light btn modal-trigger" href="#modal1-{%url 'admin_deleteproduct'%}?uid={{i.id}}"><i class="material-icons " style="color: rgb(222, 17, 17);">delete</i></a>
+                                                    <div id="modal1-{%url 'admin_deleteproduct'%}?uid={{i.id}}" class="modal" >
+                                                        <div class="modal-content  ">
+                                                          <h4 style="color: red;">Do you want to delete {{i.book_title}}?? </h4>
+                                                          <p>A bunch of text</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                          <button ><a href="{%url 'admin_deleteproduct'%}?uid={{i.id}}" class="modal-close waves-effect waves-green btn-flat" style="color: blue;">Done</a></button>
+                                                        </div>
+                                                      </div> -->
+                                                      <!-- {%url 'admin_deleteproduct'%}?uid={{i.id}} -->
+                                                <!-- <a href =""  class="btn btn-danger "> -->
+                                                  <!-- <i calss="btn text-secondary ">Delete</i></a> -->
+                                                  <!-- <a ><i class="material-icons " style="color: rgb(222, 17, 17);">delete</i></a> -->
+
+                                                  
+                                        </tr>
+                                        
+                                        {% endfor %}
+                                        
+                                         <!--- <tr>
+                                            <td>Garrett Winters</td>
+                                            <td>Accountant</td>
+                                            <td>Tokyo</td>
+                                            <td>63</td>
+                                            <td>2011/07/2
+                                            <td>$170,750</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ashton Cox</td>
+                                            <td>Junior Technical Author</td>
+                                            <td>San Francisco</td>
+                                            <td>66</td>
+                                            <td>2009/01/12</td>
+                                            <td>$86,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Cedric Kelly</td>
+                                            <td>Senior Javascript Developer</td>
+                                            <td>Edinburgh</td>
+                                            <td>22</td>
+                                            <td>2012/03/29</td>
+                                            <td>$433,060</td>
+                                        </tr>
+                                        <tr>
+                                          
+                                            <td>Edinburgh</td>
+                                            <td>51</td>
+                                            <td>2008/11/13</td>
+                                            <td>$183,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Michael Bruce</td>
+                                            <td>Javascript Developer</td>
+                                            <td>Singapore</td>
+                                            <td>29</td>
+                                            <td>2011/06/27</td>
+                                            <td>$183,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Donna Snider</td>
+                                            <td>Customer Support</td>
+                                            <td>New York</td>
+                                            <td>27</td>
+                                            <td>2011/01/25</td>
+                                            <td>$112,000</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+             /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+           
+
+{% endblock %}
