@@ -38,9 +38,9 @@
                                
                                 <div class="slider-fouc pd-wrap">
                                     <div id="pd-o-initiate">
-                                        <div class="pd-o-img-wrap MagicZoom"  data-src="{{ list.image.url }}" data-z  om-image="{{ list.image.url }} " id="zoom">
+                                        <!-- <div class="pd-o-img-wrap MagicZoom"  data-src="{{ list.image.url }}" data-z  om-image="{{ list.image.url }} " id="zoom">
                                            
-                                            <img class="u-img-fluid" src="{{ list.image.url }}" data-zoom-image="{{ list.image.url }}" id="zoom" alt=""></div>
+                                            <img class="u-img-fluid" src="{{ list.image.url }}" data-zoom-image="{{ list.image.url }}" id="zoom" alt=""></div> -->
                                             {% for i in mul_img %}
 
                                         <div class="pd-o-img-wrap" data-src="{{ i.multiple_image.url }}">
@@ -60,7 +60,7 @@
                                             {% for i in mul_img %}
                                             <div>
 
-                                                <img class="u-img-fluid" style="height:170px" src="{{ i.multiple_image.url }}" alt="" id="zoom" >
+                                                <img class="u-img-fluid" style="height:170px; " src="{{ i.multiple_image.url }}" alt="" id="zoom" >
                                             </div>
                                             {% endfor %}
                                             <!-- <div>
@@ -73,9 +73,9 @@
 
                                                 <img class="u-img-fluid" src="{{ list.image.url }}" alt="" id="zoom">
                                             </div> -->
-                                            <div>
+                                            <!-- <div>
 
-                                                <img class="u-img-fluid" src="{{ list.image.url }}" alt="" id="zoom" ></div>
+                                                <img class="u-img-fluid" src="{{ list.image.url }}" alt="" id="zoom" ></div> -->
                                         </div>
                                     </div>
                                 </div>
