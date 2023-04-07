@@ -54,7 +54,7 @@ STATE_CHOICES = (
 
 PAYMENT_METHOD_CHOICES = (
         ('Razor Pay', 'Razor Pay'),
-        ('PayPal', 'PayPal'),
+        # ('PayPal', 'PayPal'),
         ('Cash on Delivery', 'Cash on Delivery'),
     )
 

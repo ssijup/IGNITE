@@ -47,17 +47,51 @@ def view_404_error(request,exception):
 
 
 
-def venue_csv(resquest):
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="venue.csv"'
+# def venue_csv(resquest):
+#     response = HttpResponse(content_type='text/csv')
+#     response['Content-Disposition'] = 'attachment; filename="venue.csv"'
 
-    writer = csv.writer(response)
-    writer.writerow(['Name', 'Product', 'Address', 'Payment Type', 'Order Status', 'Order Date'])
+#     writer = csv.writer(response)
+#     writer.writerow(['Name', 'Product', 'Address', 'Payment Type', 'Order Status', 'Order Date'])
 
-    venues = Order.objects.all()
-    for venue in venues:
-        writer.writerow([str(venue.name), venue.product.book_title, str(venue.address.street_address), str(venue.payment_type), str(venue.order_status), str(venue.order_date)])
-    return response
+#     venues = Order.objects.all()
+#     for venue in venues:
+#         writer.writerow([str(venue.name), venue.product.book_title, str(venue.address.street_address), str(venue.payment_type), str(venue.order_status), str(venue.order_date)])
+#     return response
+
+
+
+def venue_csv(request):
+    if request.method == 'POST':
+        startdate = request.POST.get('startdate')
+        enddate = request.POST.get('enddate')
+        download_all = request.POST.get('download_all')
+        if download_all:
+            venues = Order.objects.all()
+        elif enddate == '' or startdate == '':
+            error_date='Both fields to be filled'
+            return render(request,'admin_csvdate.html',{'startdate':startdate,'error_date':error_date})
+
+        elif startdate == enddate:
+            error_date='The start date and end date cannot be equal. Please choose the right date range.'
+            return render(request,'admin_csvdate.html',{'startdate':startdate,'enddate':enddate,'error_date':error_date})
+        elif startdate > enddate:
+            error_date = 'The start date cannot be greater than the end date. Please choose the right date.'
+            return render(request, 'admin_csvdate.html', {'error_date': error_date})
+        else:
+            venues = Order.objects.filter(order_date__range=(startdate, enddate))
+
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="venue.csv"'
+
+        writer = csv.writer(response)
+        writer.writerow(['Name', 'Product', 'Address', 'Payment Type', 'Order Status', 'Order Date'])
+
+        for venue in venues:
+            writer.writerow([str(venue.name), venue.product.book_title, str(venue.address.street_address), str(venue.payment_type), str(venue.order_status), str(venue.order_date)])
+        return response
+    return render(request, 'admin_csvdate.html')
+
 
 
 
@@ -66,8 +100,15 @@ def venue_pdf(request):
     if request.method=='POST':
         startdate= request.POST.get('startdate')
         enddate= request.POST.get('enddate')
-        if enddate =='' and startdate =='':
-            venues=Order.objects.all()
+        download_all = request.POST.get('download_all')
+        if download_all:
+            venues = Order.objects.all()
+        if enddate =='' or startdate =='':
+            error_date='Both fields to be filled'
+            return render(request,'admin_pdfdate.html',{'startdate':startdate,'error_date':error_date})
+        elif startdate == enddate:
+            error_date='The start date and end date cannot be equal. Please choose the right date range.'
+            return render(request,'admin_pdfdate.html',{'startdate':startdate,'enddate':enddate,'error_date':error_date})
         elif startdate > enddate:
             error_date='The start date cannot be greater than the end date .Please choose the right date'
             return render(request,'admin_pdfdate.html',{'error_date':error_date})
@@ -180,29 +221,21 @@ def user_signup(request):
     
     if request.method == 'POST':
         phone_number=request.POST.get('phone_number')
-        # if request.POST.get('ugender')=="":
-        #     user_nameerror="All fields to be filled...."
-        #     return render(request,'user_signup.html',{'user_nameerror':user_nameerror})
+        
         ugender=request.POST.get('ugender')
-        # if request.POST.get('user_name')=='':
-        #     user_nameerror="All fields to be filled...."
-        #     return render(request,'user_signup.html',{'user_nameerror':user_nameerror})
+        
         uname = request.POST.get('user_name')
         uemail = request.POST.get('user_email')
+        gender=GENDER_CHOICE
         if Userdetails.objects.filter(user_email=uemail).exists() :
             emailvalidation=("The email {} already Exits.Try another one.".format(uemail))
-            return render(request,'user_signup.html',{'emailvalidation':emailvalidation})
+            return render(request,'user_signup.html',{'gender':gender,'phone_number':phone_number,'uname':uname,'uemail':uemail,'emailvalidation':emailvalidation})
         upassword1 = request.POST.get('user_password1')
         upassword2 = request.POST.get('user_password2')
         if upassword1 != upassword2:
             return HttpResponse('retype the password')
         else:
-            # error_userpassword=user_signupvalidation(upassword1)
-            # if error_userpassword:
-            #     return render(request,'user_signup.html',{'error_userpassword':error_userpassword})
-            # emailvalidation=email_validation(uemail)
-            # if emailvalidation:
-            #     return render(request,'user_signup.html',{'emailvalidation':emailvalidation})      
+            
             
             request.session['u_phnum']=phone_number
             request.session['ugender']=ugender
@@ -282,7 +315,7 @@ def user_login(request):
 def otp_login(request):
     print("!!!inside")
     global otp_sent
-    global use
+   
     if request.method=='POST':
         otp_rec = int(request.POST.get('c_otp'))
         if otp_rec==otp_sent:
@@ -450,7 +483,6 @@ def user_manageaccount(request):
         return render(request,'user_manageaccount.html',contex)
     return redirect('user_login')
 
-
 def user_addressbook(request):
     return render(request,'user_addessbook.html')
 
@@ -460,38 +492,43 @@ def user_addressbook(request):
 
 
 def user_profile(request):
-    user=request.session['user_email']
-    print(user,'ooooooooooooooooooooooooooooooooooooooooooo')
-    uprofile=Userdetails.objects.filter(user_email=user).first()
-    order_obj=len(Order.objects.filter(name=uprofile))
+    if 'user_email' in request.session:
+        user=request.session['user_email']
+        print(user,'ooooooooooooooooooooooooooooooooooooooooooo')
+        uprofile=Userdetails.objects.filter(user_email=user).first()
+        order_obj=len(Order.objects.filter(name=uprofile))
 
-    contex= {
+        contex= {
 
-        'uprofile':uprofile,
-        'order_obj':order_obj
+            'uprofile':uprofile,
+            'order_obj':order_obj
 
-            }
-    return render(request,'user_profile.html',contex)
+                }
+        return render(request,'user_profile.html',contex)
+    return redirect('user_login')
+
 
 
 def user_editprofile(request):
-    if request.method == "POST":
-        u_name=request.POST.get('uname')
-        # u_email=request.POST.get('u_email')
-        u_gender=request.POST.get('u_gender')
+    if 'user_email' in request.session:
+        if request.method == "POST":
+            u_name=request.POST.get('uname')
+            # u_email=request.POST.get('u_email')
+            u_gender=request.POST.get('u_gender')
+            user=request.session['user_email']
+            Userdetails.objects.filter(user_email=user).update(user_name=u_name,gender=u_gender)
+            return redirect('user_profile')
+        
         user=request.session['user_email']
-        Userdetails.objects.filter(user_email=user).update(user_name=u_name,gender=u_gender)
-        return redirect('user_profile')
-    
-    user=request.session['user_email']
-    uprofile=Userdetails.objects.filter(user_email=user).first()
-    print(uprofile.gender,'llllllllllllllllllllllllllllllllllllllllllllllllll')
-    gender=GENDER_CHOICE
-    contex= {
-        'uprofile':uprofile,
-        'gender':gender
-            }
-    return render(request,'user_editprofile.html',contex)
+        uprofile=Userdetails.objects.filter(user_email=user).first()
+        print(uprofile.gender,'llllllllllllllllllllllllllllllllllllllllllllllllll')
+        gender=GENDER_CHOICE
+        contex= {
+            'uprofile':uprofile,
+            'gender':gender
+                }
+        return render(request,'user_editprofile.html',contex)
+    return redirect('user_login')
 
 
 
@@ -1081,57 +1118,60 @@ def admin_deleteproduct_variantoptions(request):
 
 
 def create_cart(request):
-    user = request.session['user_email']
-    variant_option_id =request.GET.get('variant_option_id')
-    pro_id = request.GET.get('uid')
-    
-    cart_pro = Products.objects.get(id=pro_id)
-    variant_option_obj=Variantoptions.objects.filter(voption_prod_key=cart_pro)
-    vartant_obj=variant_option_obj.get(id=variant_option_id)
-    #vartant_obj=Variantoptions.objects.get(id=variant_option_id)
+    if 'user_email' in request.session:
 
-    cart_user = Userdetails.objects.get(user_email = user )
-    if vartant_obj.product_stock == 0 or vartant_obj.product_stock<0 :
-            msg='The Product is out of stock'
-            messages.success(request,msg)
-            print('ooooooooggggggtttthhhh')
-            return redirect('shop_list_left_books')
-    try:
-        userprod_cart=Cart.objects.filter(user=cart_user)
-    except Cart.DoesNotExist:
-        userprod_cart=Cart.objects.create(user=cart_user,product=cart_pro,c_product_vatiantoption_key=vartant_obj,quantity=1)
-        vartant_obj.product_stock-=1
-        Variantoptions.objects.filter(id=variant_option_id).update(product_stock=vartant_obj.product_stock)
+        user = request.session['user_email']
+        variant_option_id =request.GET.get('variant_option_id')
+        pro_id = request.GET.get('uid')
+        
+        cart_pro = Products.objects.get(id=pro_id)
+        variant_option_obj=Variantoptions.objects.filter(voption_prod_key=cart_pro)
+        vartant_obj=variant_option_obj.get(id=variant_option_id)
+        #vartant_obj=Variantoptions.objects.get(id=variant_option_id)
 
-
-    try:
-        user_pro=Cart.objects.get(product=cart_pro,user=cart_user,c_product_vatiantoption_key=vartant_obj)
-    except Cart.DoesNotExist:
-        user_pro=None
-    if user_pro is None:
-        Cart.objects.create(user=cart_user,product=cart_pro,c_product_vatiantoption_key=vartant_obj,quantity=1)
-        vartant_obj.product_stock-=1
-        Variantoptions.objects.filter(id=variant_option_id).update(product_stock=vartant_obj.product_stock)
-
-    else:
-    #     if vartant_obj.product_stock == 0 or vartant_obj.product_stock<0 :
-    #         messages.success(request,'The Product is out of stock')
-    #         return redirect('shop_list_left_books')
-           
-        user_pro.quantity+=1
-        Cart.objects.filter(product=cart_pro,c_product_vatiantoption_key=vartant_obj).update(quantity=user_pro.quantity)
-        vartant_obj.product_stock-=1
+        cart_user = Userdetails.objects.get(user_email = user )
+        if vartant_obj.product_stock == 0 or vartant_obj.product_stock<0 :
+                msg='The Product is out of stock'
+                messages.success(request,msg)
+                print('ooooooooggggggtttthhhh')
+                return redirect('shop_list_left_books')
         try:
-            variant_option_obj=Variantoptions.objects.filter(id=variant_option_id).update(product_stock=vartant_obj.product_stock)
-        except IntegrityError:
-            for i in variant_option_obj:
-                var_pro=i.variantoption_name
-                print(var_pro,'uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu')
-            msg='The Product "{}" is out of stock'.format(var_pro)
-            messages.success(request,msg,'The Product is out of stock')
-            return redirect('cart_table')
+            userprod_cart=Cart.objects.filter(user=cart_user)
+        except Cart.DoesNotExist:
+            userprod_cart=Cart.objects.create(user=cart_user,product=cart_pro,c_product_vatiantoption_key=vartant_obj,quantity=1)
+            vartant_obj.product_stock-=1
+            Variantoptions.objects.filter(id=variant_option_id).update(product_stock=vartant_obj.product_stock)
+
+
+        try:
+            user_pro=Cart.objects.get(product=cart_pro,user=cart_user,c_product_vatiantoption_key=vartant_obj)
+        except Cart.DoesNotExist:
+            user_pro=None
+        if user_pro is None:
+            Cart.objects.create(user=cart_user,product=cart_pro,c_product_vatiantoption_key=vartant_obj,quantity=1)
+            vartant_obj.product_stock-=1
+            Variantoptions.objects.filter(id=variant_option_id).update(product_stock=vartant_obj.product_stock)
+
+        else:
+        #     if vartant_obj.product_stock == 0 or vartant_obj.product_stock<0 :
+        #         messages.success(request,'The Product is out of stock')
+        #         return redirect('shop_list_left_books')
             
-    return redirect('cart_table')
+            user_pro.quantity+=1
+            Cart.objects.filter(product=cart_pro,c_product_vatiantoption_key=vartant_obj).update(quantity=user_pro.quantity)
+            vartant_obj.product_stock-=1
+            try:
+                variant_option_obj=Variantoptions.objects.filter(id=variant_option_id).update(product_stock=vartant_obj.product_stock)
+            except IntegrityError:
+                for i in variant_option_obj:
+                    var_pro=i.variantoption_name
+                    print(var_pro,'uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu')
+                msg='The Product "{}" is out of stock'.format(var_pro)
+                messages.success(request,msg,'The Product is out of stock')
+                return redirect('cart_table')
+                
+        return redirect('cart_table')
+    return redirect('user_login')
         
 
 
@@ -1162,13 +1202,15 @@ def cart_table(request):
     loginuser = request.session['user_email']
     user1 = Userdetails.objects.get(user_email = loginuser )
     cart = Cart.objects.filter(user = user1)
-    cart_len = len(Cart.objects.filter(user = user1))
-    if cart_len >0:
+    cartmini_user=Userdetails.objects.filter(user_email=loginuser).first()
+
+    cart_ = len(Cart.objects.filter(user = user1))
+    if cart_ >0:
         pass
     else:
-        cart_len=None
+        cart_=None
 
-    cart_len = len(Cart.objects.filter(user = user1))
+    cart_ = len(Cart.objects.filter(user = user1))
     total_price = sum([i.subtotal for i in cart])
     amount=total_price-40
     
@@ -1177,7 +1219,7 @@ def cart_table(request):
     #     value= i.quantity*i.product.p_variantoption_for.price
     #     amount=value+amount
     # totalamount=amount+shippingcharge    'totalamount':totalamount
-    return render(request,'cart_table.html',{"amount":amount,'cart':cart,'total_price':total_price,'cart_len':cart_len,})
+    return render(request,'cart_table.html',{'cartmini_user':cartmini_user,"amount":amount,'cart':cart,'total_price':total_price,'cart_':cart_,})
 
 
 def clear_cart(request):
@@ -1525,15 +1567,56 @@ def checkout_summary(request):
                 dis_amt= cou_ex.coupon_dis_amount            
                 total_amount=total_amount-dis_amt
                 razorpay_amount=int(total_amount)*100
+                sub=total_amount+dis_amt
                 cou_applied='Coupon Applied Sucessfully'
-                return render(request,'checkout_summary.html',{'dis_amt':dis_amt,'cou_applied':cou_applied,'coupon_obj':coupon_obj,'razorpay_amount':razorpay_amount,'total_amount':total_amount,'payment_methods':payment_methods,'summmary_pro':summmary_pro,'user_address':user_address})
+                
+                data={
+                    'dis_amt':dis_amt,
+                    'cou_applied':'Coupon Applied Sucessfully',
+                    'total_amount':total_amount
+                }
+                # return JsonResponse(data)
+                return render(request,'checkout_summary.html',{'sub':sub,'dis_amt':dis_amt,'cou_applied':cou_applied,'coupon_obj':coupon_obj,'razorpay_amount':razorpay_amount,'total_amount':total_amount,'payment_methods':payment_methods,'summmary_pro':summmary_pro,'user_address':user_address})
             if cou_ex is None:
                 coup_error='Invalid Coupon'
+                data={
+                    'cou_failed':'Invalid Coupon'
+                    }
+                # return JsonResponse(data)
                 return render(request,'checkout_summary.html',{'coup_error':coup_error,'coupon_obj':coupon_obj,'razorpay_amount':razorpay_amount,'total_amount':total_amount,'payment_methods':payment_methods,'summmary_pro':summmary_pro,'user_address':user_address})
-           
-        return render(request,'checkout_summary.html',{'coupon_obj':coupon_obj,'razorpay_amount':razorpay_amount,'total_amount':total_amount,'payment_methods':payment_methods,'summmary_pro':summmary_pro,'user_address':user_address})
+        else:
+            return render(request,'checkout_summary.html',{'coupon_obj':coupon_obj,'razorpay_amount':razorpay_amount,'total_amount':total_amount,'payment_methods':payment_methods,'summmary_pro':summmary_pro,'user_address':user_address})
+        # return render(request,'checkout_summary.html')
 
 
+# def coupon_display(request):
+#     print('hhhiiiiiiiiiiiiiiiiiiiiiiii')
+#     loginuser=request.session['user_email']
+#     user1 = Userdetails.objects.get(user_email = loginuser )
+#     summmary_pro = Cart.objects.filter(user = user1)
+#     for i in summmary_pro:
+#         total_amount=sum([i.subtotal for i in summmary_pro ])
+#     if request.method == "GET":
+#         coupon_name=request.GET.get('coupon_name')
+#         cou_ex=Coupon.objects.filter(coupon_name=coupon_name).first()
+#         print('hoo')
+#         if cou_ex is not None :
+#             dis_amt= cou_ex.coupon_dis_amount            
+#             total_amount=total_amount-dis_amt
+#             razorpay_amount=int(total_amount)*100
+#             # razorpay_amount=int(total_amount)*100
+#             cou_applied='Coupon Applied Sucessfully'
+#             data={
+#                 'dis_amt':dis_amt,
+#                 'cou_applied':'Coupon Applied Sucessfully',
+#                 'total_amount':total_amount
+#             }
+#             request.session['dis_total']=total_amount
+#         if cou_ex is None:
+#                 data={
+#                 'cou_failed':'Invalid Coupon'
+#             }
+#         return JsonResponse(data)
 
 
 def coupon_dis_total(request):
@@ -1606,7 +1689,8 @@ def place_order(request):
         iid=request.session['address_id']
 
         
-        user_login=request.session['user_email']    
+        user_login=request.session['user_email']
+        
         totalamount=request.GET.get('amount') 
         ordered_user=Userdetails.objects.get(user_email=user_login)
         usercart_product=Cart.objects.filter(user=ordered_user)
@@ -1638,8 +1722,11 @@ def place_order(request):
             
            
         elif payment_method=='Razor Pay':
-                razorpay_amount=int(totalamount)*100
-                raz=razorpay_amount/100
+                amount_string = request.GET.get('amount')
+                print(amount_string,'amount_string')
+                # amount_digits = ''.join(filter(str.isdigit, amount_string))
+                razorpay_amount = int(amount_string) * 100
+                raz = razorpay_amount / 100
                 return render(request,'razorpay_payment.html',{'raz':raz,'razorpay_amount':razorpay_amount,'payment_method':payment_method})
                 
                 
@@ -1665,8 +1752,9 @@ def place_order(request):
                         # Order.objects.filter(order=order,product__id=uid).update(ordered_product_price=i.c_product_vatiantoption_key.discount_price)
                         order.ordered_product_price=i.c_product_vatiantoption_key.discount_price
                         order.save()
-                    del_cart=Cart.objects.all()
+                    del_cart=Cart.objects.filter(user=ordered_user)
                     del_cart.delete()
+                    
 
                 return redirect('order_thanku')
         except UnboundLocalError:  
@@ -1683,9 +1771,11 @@ def razorpay_payment(request):
     usercart_product=Cart.objects.filter(user=ordered_user)
     selected_address= Useraddress.objects.get(id=iid) 
     for i in usercart_product:
+        print('ooooooooooooooooooooooooooooooo')
         total_amount=sum([i.subtotal for i in usercart_product ])
-        total_amount=total_amount
-        razorpay_amount=int(total_amount)*100   
+    total_amount=total_amount
+    print(total_amount,'total amount')
+    razorpay_amount=int(total_amount)*100   
     
     #payment_method=request.POST.get('payment_method')
     payment_method='Razor Pay'
@@ -1696,7 +1786,7 @@ def razorpay_payment(request):
     #razorpay_amount=int(totalamount)*100
     client = razorpay.Client(auth=("rzp_test_RRhMTrJphOc3D7", "cUn8l52mELGhaXlORvWpzADe"))
     DATA = {
-        "amount": total_amount ,
+        "amount": total_amount,
         "currency": "INR",
         "receipt": "receipt#1",
         "notes": {
@@ -1745,6 +1835,7 @@ def razorpay_payment(request):
                         order.save()
                     del_cart=Cart.objects.all()
                     del_cart.delete()
+                    
 
                 return redirect('order_thanku')
         except UnboundLocalError:
@@ -2257,12 +2348,24 @@ def admin_addcoupon(request):
         coupon_name=request.POST.get('coupon_name')
         coupon_dis_amount=request.POST.get('coupon_dis_amount')
         coupon_min_amount_req=request.POST.get('coupon_min_amount_req')
-        Coupon.objects.create(
-            coupon_name=coupon_name,
-            coupon_dis_amount=coupon_dis_amount,
-            coupon_minmun_amount=coupon_min_amount_req
-        )
-        return redirect('admin_couponlist')
+        cop_obj=Coupon.objects.filter(coupon_name=coupon_name).first()
+        print('9999999999999999999999999')
+        if cop_obj is None:
+            Coupon.objects.create(
+                coupon_name=coupon_name,
+                coupon_dis_amount=coupon_dis_amount,
+                coupon_minmun_amount=coupon_min_amount_req
+            )
+            return redirect('admin_couponlist')
+        else:
+            cop='This coupon Already Exits..PLease Add Another One'
+            data={
+                'cop':cop,
+                'coupon_name':coupon_name,
+                'coupon_dis_amount':coupon_dis_amount,
+                'coupon_min_amount_req':coupon_min_amount_req
+            }
+            return render(request,'admin_addcoupon.html',data)
     return render(request,'admin_addcoupon.html')
 
 

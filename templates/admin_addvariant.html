@@ -34,37 +34,7 @@
                   <label class="form-label text-secondary" for="form3Example1cg"> Enter Variant for {% for i in sub_cate %}{{i.subcategory_name}}{% endfor %}</label>
                   
                 </div>
-                <!---- <div class="form-outline mb-4">
-                  <input type="text" id="form3Example1cg" class="form-control form-control-lg" name="author"/>
-                  <label class="form-label" for="form3Example1cg">Author</label>
-                </div>
-                <div class="form-outline mb-4">
-                  <input type="text" id="form3Example1cg" class="form-control form-control-lg" name="description"/>
-                  <label class="form-label" for="form3Example1cg">Description</label>
-                </div>
-                <div class="form-outline mb-4">
-                  <input type="file" id="form3Example1cg" class="form-control form-control-lg" name="myfile"/>
-                  <label class="form-label" for="form3Example1cg">image</label>
-                </div>
-                <div class="form-outline mb-4">
-                  <input type="number" id="form3Example1cg" class="form-control form-control-lg" name="price"/>
-                  <label class="form-label" for="form3Example1cg">Price</label>
-                </div>
-
-
                
-
-               <!-- <div class="form-outline mb-4">
-                  <input type="password" id="form3Example4cdg" class="form-control form-control-lg" />
-                  <label class="form-label" for="form3Example4cdg">Repeat your password</label>
-                </div>
-
-                <div class="form-check d-flex justify-content-center mb-5">
-                  <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3cg" />
-                  <label class="form-check-label" for="form2Example3g">
-                    I agree all statements in <a href="#!" class="text-body"><u>Terms of service</u></a>
-                  </label>
-                </div>--->
 
             <div class="d-flex justify-content-center">
                   <button type="submit" value="Submit"
@@ -83,5 +53,27 @@
     </div>
   </div>
 </section>
+<script>
+  function validatenumber_dis(){
+            let num=document.getElementById('dis').value;
+            if (num==''){
+                document.getElementById('num').innerHTML='Please enter an amount';
+                return false
+
+            }
+            else if(/^[0-9]+$/.test(num) == false) {
+                document.getElementById("num").innerHTML = "Please enter an amount";
+                return false
+            }
+            
+
+            
+            else{
+                document.getElementById("num").innerHTML = "";
+                return true
+            }
+        }
+</script>
+
 </body>
 </html>

@@ -29,21 +29,25 @@
                   </div>
                   {% endif %}
                <div class="form-outline mb-4">
-
-                  <input type="text" id="form3Example1cg" class="form-control form-control-lg" name="varient"/>
-                  <label class="form-label text-secondary" for="form3Example1cg"> Enter Coupon Name</label>
+                {% if error_date %}
+                <div>
+                    <h6 class="" style="color: red;">{{error_date}}</h6>
+                </div>
+                {% endif %}
+                  <input value="{{startdate}}" type="date" id="form3Example1cg" class="form-control form-control-lg" name="startdate"/>
+                  <label class="form-label text-secondary" for="form3Example1cg"> Enter Start DAte</label>
                   
                 </div>
                 <div class="form-outline mb-4">
 
-                  <input type="text" id="form3Example1cg" class="form-control form-control-lg" name="varient"/>
-                  <label class="form-label text-secondary" for="form3Example1cg"> Enter amount</label>
+                  <input value="{{enddate}}" type="date" id="form3Example1cg" class="form-control form-control-lg" name="enddate"/>
+                  <label class="form-label text-secondary" for="form3Example1cg"> Enter End date</label>
                   
                 </div>
                 <div class="form-outline mb-4">
 
-                  <input type="text" id="form3Example1cg" class="form-control form-control-lg" name="varient"/>
-                  <label class="form-label text-secondary" for="form3Example1cg"> Enter minium Amount</label>
+                  <input value ='true' type="checkbox"  name="download_all"/>
+                  <label class="form-label text-secondary" for="form3Example1cg">Download All</label>
                   
                 </div>
                 <!-- <div class="form-outline mb-4">

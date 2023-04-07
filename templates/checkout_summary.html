@@ -177,60 +177,9 @@
                                                     <a class="o-card__del far fa-trash-alt"></a>
                                                 </div>
                                                 {% endfor %}
-                                                <!-- <div class="o-card">
-                                                    <div class="o-card__flex">
-                                                        <div class="o-card__img-wrap">
+                                              
 
-                                                            <img class="u-img-fluid" src="{% static 'images/product/electronic/product18.jpg' %}" alt=""></div>
-                                                        <div class="o-card__info-wrap">
 
-                                                            <span class="o-card__name">
-
-                                                                <a href="product-detail.html">Nikon DSLR Camera 4k</a></span>
-
-                                                            <span class="o-card__quantity">Quantity x 1</span>
-
-                                                            <span class="o-card__price">$150.00</span></div>
-                                                    </div>
-
-                                                    <a class="o-card__del far fa-trash-alt"></a>
-                                                </div> -->
-                                                <!-- <div class="o-card">
-                                                    <div class="o-card__flex">
-                                                        <div class="o-card__img-wrap">
-
-                                                            <img class="u-img-fluid" src="{% static 'images/product/women/product8.jpg' %}" alt=""></div>
-                                                        <div class="o-card__info-wrap">
-
-                                                            <span class="o-card__name">
-
-                                                                <a href="product-detail.html">New Dress D Nice Elegant</a></span>
-
-                                                            <span class="o-card__quantity">Quantity x 1</span>
-
-                                                            <span class="o-card__price">$150.00</span></div>
-                                                    </div>
-
-                                                    <a class="o-card__del far fa-trash-alt"></a>
-                                                </div> -->
-                                                <!-- <div class="o-card">
-                                                    <div class="o-card__flex">
-                                                        <div class="o-card__img-wrap">
-
-                                                            <img class="u-img-fluid" src="{% static 'images/product/men/product8.jpg' %}" alt=""></div>
-                                                        <div class="o-card__info-wrap">
-
-                                                            <span class="o-card__name">
-
-                                                                <a href="product-detail.html">New Fashion D Nice Elegant</a></span>
-
-                                                            <span class="o-card__quantity">Quantity x 1</span>
-
-                                                            <span class="o-card__price">$150.00</span></div>
-                                                    </div>
-
-                                                    <a class="o-card__del far fa-trash-alt"></a>
-                                                </div> -->
                                             </div>
                                         </div>
                                         
@@ -270,40 +219,56 @@
                                             <h4 style="color: blue;" >You are eligible to apply : <strong style="color: rgb(255, 0, 0);">{{coupon_obj.coupon_name}}</strong></h4>
                                             {% endif %}
 
-                                                    {% if coup_error %}
+                                                   
+
+
+                                            {% if coup_error %}
                                                     <div>
-                                                        <h3 style="color: red;">
-                                                            {{coup_error}}
+                                                        <h3  id="cop" style="color: red;">
+                                                           {{coup_error}}
+                                                        </h5>
+                                                    </div>
+                                                   {% endif %}
+
+                                                   {% if cou_applied %}
+                                                    <div>
+                                                        <h3 id="coupon" style="color: red;">
+                                                       {{cou_applied}}
                                                         </h5>
                                                     </div>
                                                     {% endif %}
-                                                    {% if cou_applied %}
-                                                    <div>
-                                                        <h3 style="color: red;">
-                                                            {{cou_applied}}
-                                                        </h5>
-                                                    </div>
-                                                    {% endif %}
+                                                    
+
+
+
                                                 <div class="collapse" id="have-coupon" data-parent="#checkout-msg-group">
                                                 
                                                 <div class="c-f u-s-m-b-16">
     
                                                     <span class="gl-text u-s-m-b-16">Enter your coupon code if you have one.</span>
-                                                    <form class="c-f__form" action="" method="POST">
+                                                   
+                                                   
+                                                   
+                                                    
+                                                    <form class="c-f__form"  method="POST">
                                                         {% csrf_token %}
-                                                        <div class="u-s-m-b-16">
+                                                        <div class="c-f__form">
                                                             <div class="u-s-m-b-15">
-    
+                                                
                                                                 <label for="coupon"></label>
                                                                 
-    
-                                                                <input name="coupon_name" class="input-text input-text--primary-style" type="text" id="coupon" placeholder="Coupon Code"></div>
+                                                
+                                                                <input id="copin" name="coupon_name" class="input-text input-text--primary-style" type="text" id="coupon" placeholder="Coupon Code"></div>
                                                             <div class="u-s-m-b-15">
-    
-                                                                <button class="btn btn--e-transparent-brand-b-2" type="submit">APPLY</button>
+                                                
+                                                                <button type="submit" onclick="" class="btn btn--e-transparent-brand-b-2" >APPLY</button>
                                                             </div>
                                                         </div>
                                                     </form>
+
+
+
+
                                                 </div>
                                             </div>
                                         </div>
@@ -314,6 +279,21 @@
                                             <div class="o-summary__box">
                                                 <table class="o-summary__table">
                                                     <tbody>
+                                                        
+                                                        <tr>
+                                                            <td>SUBTOTAL</td>
+                                                            <td >₹ {% if sub %}{{sub}}/-{% else %}{{total_amount}}/-{% endif %}</td>
+                                                        </tr>
+
+                                                       
+                                                        
+                                                       
+                                                        {% if cou_applied %}
+                                                        <tr>
+                                                            <td>DISCOUNT</td>
+                                                            <td style="color: rgb(255, 102, 0);" id="discount">- ₹{{dis_amt}} /-</td>
+                                                        </tr>
+                                                        {% endif %}
                                                         <tr>
                                                             <td>SHIPPING</td>
                                                             <td>₹ 40/-</td>
@@ -322,20 +302,11 @@
                                                             <td>TAX</td>
                                                             <td>FREE</td>
                                                         </tr>
-                                                        {% if dis_amt %}
                                                         <tr>
-                                                            <td>Discount Applied</td>
-                                                            <td>₹ {{dis_amt}}</td>
-                                                        </tr>
-                                                        {% endif %}
-                                                        <tr>
-                                                            <td>SUBTOTAL</td>
-                                                            <td>₹ {{total_amount}}/-</td>
-                                                        </tr>
-                                                        <tr>dis_amt
                                                             <td>GRAND TOTAL</td>
-                                                            <td>₹ {{total_amount}}/-</td>
+                                                            <td id="dis_amt">₹ {{total_amount}}/-</td>
                                                         </tr>
+                                                        
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -345,7 +316,7 @@
                                             <div class="o-summary__box">
                                                 <h1 class="checkout-f__h1">PAYMENT INFORMATION</h1>
                                                
-                                                <form class="checkout-f__payment" action="{% url 'place_order' %}?amount={{total_amount}}" method="post">
+                                                <form id="checkout-form" class="checkout-f__payment" action="{% url 'place_order' %}?amount={{total_amount}}" method="post">
                                                     {% csrf_token %}
                                                     {% for i in payment_methods %}
                                                     
@@ -384,7 +355,7 @@
                                                     </div> -->
                                                     <!-- <div class="u-s-m-b-10">
 
-                                                        <!--====== Radio Box ======-->
+                                                        ====== Radio Box ======-->
                                                         <!-- <div class="radio-box">
 
                                                             <input type="radio" id="pay-with-check" name="Razorpay">
@@ -392,7 +363,7 @@
 
                                                                 <label class="radio-box__label" for="pay-with-check">Pay With Razorpay</label></div>
                                                         </div>
-                                                        <!--====== End - Radio Box ======-->
+                                                       -====== End - Radio Box ======-->
 
                                                         <!-- <span class="gl-text u-s-m-t-6">Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</span>
                                                     </div>
@@ -412,7 +383,7 @@
                                                     <!-- </div> -->
                                                     <!-- <div class="u-s-m-b-10">
 
-                                                        <!--====== Radio Box ======-->
+                                                        --====== Radio Box ======-->
                                                         <!-- <div class="radio-box">
 
                                                             <input type="radio" id="pay-pal" name="PayPal">
@@ -426,7 +397,7 @@
                                                     </div>
                                                     <div class="u-s-m-b-15">
 
-                                                        <!--====== Check Box ======-->
+                                                       --====== Check Box ======-->
                                                         <!-- <div class="check-box"> -->
 
                                                             <!-- <input type="checkbox" id="term-and-condition">
@@ -434,7 +405,7 @@
 
                                                                 <label class="check-box__label" for="term-and-condition">I consent to the</label></div>
                                                         </div>
-                                                        <!--====== End - Check Box ======-->
+                                                      --====== End - Check Box ======-->
 
                                                         <a class="gl-link">Terms of Service.</a>
                                                     </div>
@@ -461,7 +432,7 @@ var options = {
     "currency": "INR",
     "name": "Acme Corp", //your business name
     "description": "Test Transaction",
-    "image": "https://example.com/your_logo",
+    "image": "https://example.comerrgrand/your_logo",
     "order_id": "{{payment.id}}", //     "callback_url": "" https://eneqd3r9zrjok.x.pipedream.net/     This is a sample Order ID. Pass the `id` obtained in the response of Step 1
     "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
     "prefill": {
@@ -514,5 +485,97 @@ document.getElementById('rzp-button1').onclick = function(e){
 
         <!--====== Main Footer ======-->
        
+
+
+        <!-- <form class="c-f__form" action="" method="">
+            {% csrf_token %}
+            <div class="u-s-m-b-16">
+                <div class="u-s-m-b-15">
+
+                    <label ID="coupon">AASDFD</label>AEFA
+                    
+
+                    <input id="copid" name="coupon_name" class="input-text input-text--primary-style" type="text" id="coupon" placeholder="Coupon Code"></div>
+                <div class="u-s-m-b-15">
+
+                    <button onclick="cop()" class="btn btn--e-transparent-brand-b-2" type="submit">APPLY</button>
+                </div>
+            </div>
+        </form> -->
+
+
+
+        <!-- <div class="c-f__form">
+            <div class="u-s-m-b-15">
+
+                <label for="coupon"></label>
+                
+
+                <input id="copin" name="coupon_name" class="input-text input-text--primary-style" type="text" id="coupon" placeholder="Coupon Code"></div>
+            <div class="u-s-m-b-15">
+
+                <button onclick="cop()" class="btn btn--e-transparent-brand-b-2" type="submit">APPLY</button>
+            </div>
+        </div> -->
+
+
+
+        
+        <!-- <div>
+            <h3  id="cop" style="color: red;">
+               sdfadgsdfg
+            </h5>
+        </div>
+        
+        <div>
+            <h3 id="coupon" style="color: red;">
+
+            </h5>
+        </div> -->
+        
+
+
+
+
+<script>
+    function cop(){
+        console.log('oo')
+        copin=document.getElementById("copin").value;
+        console.log(copin)
+        var csrfToken = $('[name="csrfmiddlewaretoken"]').val();
+        console.log(csrfToken);
+        $.ajax({
+            type:"POST" ,
+            url:"/checkout_summary/",
+            data:{
+                coupon_name:copin,
+                csrfmiddlewaretoken: csrfToken
+        },
+        success:function(data){
+            if('cou_applied' in data){
+                console.log('sucess')
+                document.getElementById("coupon").innerHTML=data.cou_applied;
+                document.getElementById("cop").innerHTML="";
+                document.getElementById("dis_amt").innerHTML="₹"+data.total_amount;
+                document.getElementById("discount").innerHTML="- ₹ "+data.dis_amt+"/- ";
+                var checkoutForm = document.getElementById("checkout-form");
+                var amount = encodeURIComponent(data.total_amount);
+                checkoutForm.action = checkoutForm.action + "?amount=" + amount;
+
+            } else if('cou_failed' in data){
+                console.log('invalid')
+                document.getElementById("cop").innerHTML=data.cou_failed;
+                document.getElementById("coupon").innerHTML="";
+
+            }else{
+                document.getElementById("cop").innerHTML="";
+
+            }
+        }
+        
+        })
+    }
+</script>
+
 
 {% endblock %}

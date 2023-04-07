@@ -124,7 +124,7 @@ urlpatterns =[
     path('product_minuscart/',views.product_minuscart, name = 'product_minuscart'),
     path('filter_by_subcategory/',views.filter_by_subcategory, name = 'filter_by_subcategory'),
     path('discount_showing/',views.discount_showing, name = 'discount_showing'),
-
+    # path('coupon_display/',views.coupon_display, name = 'coupon_display'),
 
 
 

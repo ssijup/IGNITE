@@ -14,11 +14,13 @@ $('.plus-btn').click(function(){
             if ('prod_name' in data ){
             // document.getElementById("prod_name").innerText=data.prod_name
 
-            alert('the product stock limit reached-Cart Table')
+            alert('The product quantity limit reached')
 
             }else{
             console.log("data=",data);
             eml.innerText=data.quantity
+            document.getElementById("proqty").innerText="x"+data.quantity
+            document.getElementById("qty").innerText="Qty :"+data.quantity
             document.getElementById("amount").innerText="₹"+data.amount
             document.getElementById("totalamount").innerText="₹"+data.totalamount
             }
@@ -78,6 +80,8 @@ $('.minus-btn').click(function(){
             }
             else{
             eml.innerText=data.quantity
+            document.getElementById("proqty").innerText="x"+data.quantity
+            document.getElementById("qty").innerText="Qty :"+data.quantity
             document.getElementById("amount").innerText="₹"+data.amount
             document.getElementById("totalamount").innerText="₹"+data.totalamount
             }

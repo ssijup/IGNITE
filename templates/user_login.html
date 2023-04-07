@@ -24,10 +24,10 @@
                                 <ul class="breadcrumb__list">
                                     <li class="has-separator">
 
-                                        <a href="index.html">Home</a></li>
+                                        <a href="{% url 'index_3_home' %}">Home</a></li>
                                     <li class="is-marked">
 
-                                        <a href="signin.html">Signin</a></li>
+                                        <a href="{% url 'user_login' %}">Signin</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -100,11 +100,6 @@
 
                                                      <label class="gl-label" for="login-password">PASSWORD *</label>
                                                     
-                                                    {% if messages %}
-                                                
-                                                    {% for message in messages %}
-                                                    <h3 style="color: red;" >{% if message.tags %} {{ message.tags }}"{% endif %}{{ message }}</h3>
-                                                    {% endfor %}
                                                 
                                                 {% endif %}
                                                 <h6  id="pass-error" class="" style="color: red;"></h6>

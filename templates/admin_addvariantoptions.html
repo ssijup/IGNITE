@@ -23,7 +23,7 @@
               <h4 style="color: rgb(0, 81, 255);">Add variant option for {{prod_varoption.book_title}}</h4>
               
 
-              <form action="" method="POST" enctype="">
+              <form action="" onsubmit="return all()" method="POST" enctype="">
                 {% csrf_token %}
                 {% if error_vo %}
                   <div>
@@ -52,31 +52,27 @@
                 </div>
                 <div class="form-outline mb-4">
 
-                  <input type="text"  placeholder='Enter if it have a unit'id="form3Example1cg" class="form-control form-control-lg" name="variantoption_unit">
+                  <input type="text"   placeholder='Enter if it have a unit' id="form3Example1cg" class="form-control form-control-lg" name="variantoption_unit">
                   
                   <label class="form-label text-secondary" for="form3Example1cg">Enter Option Unit </label>
                   
                 </div>
                 <div class="form-outline mb-4">
 
-                  <input required type="text" id="form3Example1cg" class="form-control form-control-lg" name="variantoption_stock"/>
-                  {% if error_vos %}
-                  <div>
-                      <h6 class="" style="color: red;">{{error_vos}}</h6>
-                  </div>
-                  {% endif %}
+                  <input id="stock" required onkeyup="validatenumber_stock()" type="text"  class="form-control form-control-lg" name="variantoption_stock"/>
+                
+                      <h6 id="st" class="" style="color: red;">{{error_vos}}</h6>
+                  
                   <label class="form-label text-secondary" for="form3Example1cg">Enter stock qtn </label>
                   
                 </div>
                 <div class="form-outline mb-4">
 
                   
-                  <input required type="number" id="form3Example1cg" class="form-control form-control-lg" name="variantoption_price"/>
-                  {% if error_vop %} 
-                  <div>
-                    <h6 class="" style="color: red;">{{error_vop}}</h6>
-                </div>
-                {% endif %}
+                  <input required item id="price" onkeyup="validatenumber_dis()" type="number"  class="form-control form-control-lg" name="variantoption_price"/>
+                 
+                    <h6 id="num"  class="" style="color: red;">{{error_vop}}</h6>
+                
                   <label class="form-label text-secondary" for="form3Example1cg">Enter price </label>
                   
                 </div>
@@ -89,7 +85,7 @@
                
 
             <div class="d-flex justify-content-center">
-                  <button type="submit" value="Submit"
+                  <button onclick="validatenumber_stock(),validatenumber_dis()" type="submit" value="Submit"
                     class="btn btn-primary btn-block btn-lg gradient-custom-4 text-body">Done</button>
                 </div>
 
@@ -106,4 +102,55 @@
   </div>
 </section>
 </body>
+
+
+<script>
+  function all(){
+    if(validatenumber_stock() && validatenumber_dis()){
+      return true
+    }
+    else{
+      return false
+    }
+  }
+  function validatenumber_stock(){
+            let num=document.getElementById('stock').value;
+            if (num==''){
+                document.getElementById("st").innerHTML='Please enter valid stock qty in number';
+                return false
+
+            }
+            else if(/^[0-9]+$/.test(num) == false) {
+                document.getElementById("st").innerHTML = "Please enter valid stock qty in number";
+                return false
+            }
+            
+
+            
+            else{
+                document.getElementById("st").innerHTML = "";
+                return true
+            }
+        }
+
+        function validatenumber_dis(){
+            let num=document.getElementById('price').value;
+            if (num==''){
+                document.getElementById('num').innerHTML='Please enter an amount';
+                return false
+
+            }
+            else if(/^[0-9]+$/.test(num) == false) {
+                document.getElementById("num").innerHTML = "Please enter an amount";
+                return false
+            }
+            
+
+            
+            else{
+                document.getElementById("num").innerHTML = "";
+                return true
+            }
+        }
+</script>
 </html>

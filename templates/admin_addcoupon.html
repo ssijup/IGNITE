@@ -21,7 +21,7 @@
             <div class="card-body p-5">
               <h2 class="text-uppercase text-center mb-5">Add Coupon</h2>
 
-              <form action="" method="POST" enctype="">
+              <form action="" onsubmit="return all()" method="POST" enctype="">
                 {% csrf_token %}
                 {% if error_v %}
                   <div>
@@ -29,21 +29,23 @@
                   </div>
                   {% endif %}
                <div class="form-outline mb-4">
-
-                  <input required type="text" id="form3Example1cg" class="form-control form-control-lg" name="coupon_name"/>
+              {% if cop %}
+                <h5 style="color: red;" id="num">{{cop}}</h5>
+                {% endif %}
+                  <input value="{{coupon_name}}" required type="text" id="form3Example1cg" class="form-control form-control-lg" name="coupon_name"/>
                   <label class="form-label text-secondary" for="form3Example1cg"> Enter Coupon Name</label>
                   
                 </div>
                 <div class="form-outline mb-4">
-
-                  <input required type="text" id="form3Example1cg" class="form-control form-control-lg" name="coupon_dis_amount"/>
-                  <label class="form-label text-secondary" for="form3Example1cg"> Enter amount</label>
+                  <h5 style="color: red;" id="num"></h5>
+                  <input value="{{coupon_dis_amount}}" required type="number" onkeyup="validatenumber_dis()" id="dis"  class="form-control form-control-lg" name="coupon_dis_amount"/>
+                  <label id="" class="form-label text-secondary" for="form3Example1cg"> Enter amount</label>
                   
                 </div>
                 <div class="form-outline mb-4">
-
-                  <input required type="text" id="form3Example1cg" class="form-control form-control-lg" name="coupon_min_amount_req"/>
-                  <label class="form-label text-secondary" for="form3Example1cg"> Enter minium Amount</label>
+                  <h5 style="color: red;" id="num_err"></h5>
+                  <input value="{{coupon_min_amount_req}}" required type="number" onkeyup="validatenumber_amt()" id="amt" class="form-control form-control-lg" name="coupon_min_amount_req"/>
+                  <label id="" class="form-label text-secondary" for="form3Example1cg"> Enter minimum Amount to avail coupon</label>
                   
                 </div>
                 <!-- <div class="form-outline mb-4">
@@ -55,7 +57,7 @@
                -->
 
             <div class="d-flex justify-content-center">
-                  <button type="submit" value="Submit"
+                  <button type="submit" value=""
                     class="btn btn-primary btn-block btn-lg gradient-custom-4 text-body">Done</button>
                 </div>
 
@@ -71,5 +73,61 @@
     </div>
   </div>
 </section>
+
+
+<script>
+  function all(){
+    if(validatenumber_dis() && validatenumber_amt()){
+      return true
+    }
+    else{
+      return false
+    }
+  }
+  function validatenumber_dis(){
+            let num=document.getElementById('dis').value;
+            if (num==''){
+                document.getElementById('num').innerHTML='Please enter an amount';
+                return false
+
+            }
+            else if(/^[0-9]+$/.test(num) == false) {
+                document.getElementById("num").innerHTML = "Please enter an amount";
+                return false
+            }
+            
+
+            
+            else{
+                document.getElementById("num").innerHTML = "";
+                return true
+            }
+        }
+
+
+        function validatenumber_amt(){
+            let num=document.getElementById('amt').value;
+            if (num=='' ){
+                document.getElementById('num_err').innerHTML='Please enter an amount';
+                return false
+
+            }
+            else if(/^[0-9]+$/.test(num) == false) {
+                document.getElementById("num_err").innerHTML = "Please enter a valid amount";
+                return false
+            }
+            else if(/^(?!000)\d+$/.test(num)== false){
+                document.getElementById("num_err").innerHTML = "please enter a valid amount";
+                return false
+
+            }
+            else{
+                document.getElementById("num_err").innerHTML = "";
+                return true
+            }
+        }
+</script>
+
+
 </body>
 </html>

@@ -21,10 +21,10 @@
                                 <ul class="breadcrumb__list">
                                     <li class="has-separator">
 
-                                        <a href="index.html">Home</a></li>
+                                        <a href="{% url 'index_3_home' %}">Home</a></li>
                                     <li class="is-marked">
 
-                                        <a href="signup.html">Signup</a></li>
+                                        <a href="{% url 'user_signup' %}">Signup</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -84,7 +84,7 @@
 
                                                 <label class="gl-label" for="reg-lname"> NAME *</label>
                                                 <h6 id="name_err" class="" style="color: red;"></h6>
-                                                <input onkeyup="namevalidate()" id="reg-name" name="user_name" class="input-text input-text--primary-style" type="text"  placeholder="Enter Name"></div>
+                                                <input value="{{uname}}" onkeyup="namevalidate()" id="reg-name" name="user_name" class="input-text input-text--primary-style" type="text"  placeholder="Enter Name"></div>
                                             <!-- <div class="gl-inline">
                                                 <div class="u-s-m-b-30">
 
@@ -102,13 +102,16 @@
                                                 <label  class="gl-label" for="reg-email">Mob Number *</label>
                                                 <h6 class="" id="num_err" style="color: red;"></h1>
 
-                                                <input onkeyup="validatenumber()" id="reg-num" name="phone_number" class="input-text input-text--primary-style" type="text"  placeholder="Enter your Number"></div>
+                                                <input value="{{phone_number}}" onkeyup="validatenumber()" id="reg-num" name="phone_number" class="input-text input-text--primary-style" type="text"  placeholder="Enter your Number"></div>
                                             
                                             <div class="u-s-m-b-30">
 
                                                 <label class="gl-label" for="reg-email">E-MAIL *</label>
-                                                <h6 class="" id="email_err" style="color: red;"></h1>                                 
-                                                <input onkeyup="validateemail()" name="user_email" class="input-text input-text--primary-style" type="text" id="reg-email" placeholder="Enter E-mail"></div>
+                                                <h6 class="" id="email_err" style="color: red;"></h1> 
+                                                    {% if emailvalidation %}  
+                                                   <h6 style="color: red;">{{emailvalidation}}</h6> 
+                                                    {% endif %}                              
+                                                <input value="{{uemail}}" onkeyup="validateemail()" name="user_email" class="input-text input-text--primary-style" type="text" id="reg-email" placeholder="Enter E-mail"></div>
 
                                                 <div class="u-s-m-b-30">
 
@@ -127,7 +130,7 @@
                                                 <label class="gl-label" for="reg-password">PASSWORD *</label>
                                                 <h6 class="" id="Password" style="color: red;"></h1>
 
-                                                <input id="reg-password" onkeyup="passwordValidate()" name="user_password1" class="input-text input-text--primary-style" type="password"  placeholder="Enter Password"></div>
+                                                <input  id="reg-password" onkeyup="passwordValidate()" name="user_password1" class="input-text input-text--primary-style" type="password"  placeholder="Enter Password"></div>
                                                 <div class="u-s-m-b-30">
 
                                                        <label class="gl-label" for="reg-password">REENTER PASSWORD *</label>

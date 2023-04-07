@@ -30,14 +30,20 @@
                   {% endif %}
                <div class="form-outline mb-4">
 
-                  <input type="date" id="form3Example1cg" class="form-control form-control-lg" name="startdate"/>
+                  <input value="{{startdate}}" type="date" id="form3Example1cg" class="form-control form-control-lg" name="startdate"/>
                   <label class="form-label text-secondary" for="form3Example1cg"> Enter Start date</label>
                   
                 </div>
                 <div class="form-outline mb-4">
 
-                  <input type="date" id="form3Example1cg" class="form-control form-control-lg" name="enddate"/>
+                  <input value="{{enddate}}" type="date" id="form3Example1cg" class="form-control form-control-lg" name="enddate"/>
                   <label class="form-label text-secondary" for="form3Example1cg"> Enter End date</label>
+                  
+                </div>
+                <div class="form-outline mb-4">
+
+                  <input value="true"  type="checkbox"  name="download_all"/>
+                  <label class="form-label text-secondary" for="form3Example1cg"> Download All</label>
                   
                 </div>
                 
@@ -47,12 +53,12 @@
                   <button type="submit" value="Submit"
                     class="btn btn-primary btn-block btn-lg gradient-custom-4 text-body">Done</button>
                 </div>
-                <div class="d-flex justify-content-center">
+                <!-- <div class="d-flex justify-content-center">
                 <button type="submit" value="Submit"
                 
-                    class="justify-content-center" style="background:rgb(255, 255, 255); margin-top: 50px; border-color: aliceblue;">Don't want to sort?<strong>Download all orders</strong></button>
+                   class="justify-content-center" style="background:rgb(255, 255, 255); margin-top: 50px; border-color: aliceblue;">Don't want to sort?<strong>Download all orders</strong></button> -->
                   </div>
-                
+                 
               </form>
 
             </div>

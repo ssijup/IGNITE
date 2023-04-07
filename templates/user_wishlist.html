@@ -84,12 +84,12 @@
                                         </div>
                                         <div class="w-r__wrap-2">
 
-                                            <a class="w-r__link btn--e-brand-b-2" onclick="add_cart()" pid="{{i.wish_varoptio_key.id}}" data-product-id="{{i.wish_prod_key.id}}">ADD TO CART</a>
+                                            <!-- <a class="w-r__link btn--e-brand-b-2" onclick="add_cart()" pid="{{i.wish_varoptio_key.id}}" data-product-id="{{i.wish_prod_key.id}}">ADD TO CART</a> -->
                                         
                                                                                                                         <!-- <input id="prod_id" value='{{i.wish_prod_key.id}}'>
                                                                                                                         <input id="vop_id" value='{{i.wish_varoptio_key.id}}'> -->
 
-                                            <a class="w-r__link btn--e-transparent-platinum-b-2" href="{% url 'product_details' %}?uid={{i.wish_prod_key.id}}">VIEW</a>
+                                            <a class="w-r__link btn--e-brand-b-2" href="{% url 'product_details' %}?uid={{i.wish_prod_key.id}}">VIEW</a>
 
                                             <a class="w-r__link btn--e-transparent-platinum-b-2" href="{% url 'remove_product_inwish' %}?uid={{i.wish_varoptio_key.id}}">REMOVE</a></div>
                                     </div>
