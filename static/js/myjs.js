@@ -45,7 +45,7 @@ $('.plus-bn').click(function(){
             if ('prod_name' in data ){
             // document.getElementById("prod_name").innerText=data.prod_name
 
-            alert('the product stock limit reached-Cart Table')
+            alert('The product quantity limit reached')
 
             }else{
             console.log("data=",data);
@@ -110,7 +110,7 @@ $('.pluss-btnn').click(function(){
             if ('prod_name' in data ){
             // document.getElementById("prod_name").innerText=data.prod_name
             console.log('end')
-            alert('the product stock limit reached-PRODUCT DETAILS')
+            alert('The product quantity limit reached')
 
             }else{
             console.log('oo')

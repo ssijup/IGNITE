@@ -1486,7 +1486,7 @@
                                             <h1 class="dash__h1 u-s-m-b-14">Add new Address</h1>
 
                                             <span class="dash__text u-s-m-b-30">We need an address where we could deliver products.</span>
-                                            <form class="dash-address-manipulation" method="POST">
+                                            <form  onsubmit="return validate()" class="dash-address-manipulation" method="POST">
                                                 {% csrf_token %}
                                                 <div class="gl-inline">
                                                     <div class="u-s-m-b-30">
@@ -1495,7 +1495,7 @@
 
                                                         {% if error %}
                                                         <div>
-                                                            <h5 class="" style="color: red;">{{error}}**</h3>
+                                                            <h5 id="num_err" class="" style="color: red;">{{error}}**</h3>
                                                         </div>
                                                         {% endif %}
 
@@ -1516,12 +1516,12 @@
 
                                                         <label class="gl-label" for="address-phone">PHONE *</label>
 
-                                                        {% if error_mob %}
+                                                       
                                                         <div>
-                                                            <h5 class="" style="color: red;">{{error_mob}}**</h3>
+                                                            <h5 id="num_err" class="" style="color: red;">{{error_mob}}</h3>
                                                         </div>
-                                                        {% endif %}
-                                                        <input name="mobnumber" class="input-text input-text--primary-style" type="tel" id="address-phone" >
+                                                        
+                                                        <input name="mobnumber" onkeyup="validatenumber()" id="reg-num" class="input-text input-text--primary-style" type="tel" id="address-phone" >
                                                     </div>
 
 
@@ -1592,7 +1592,7 @@
                                                         <input name="pincode" class="input-text input-text--primary-style" type="text" id="address-postal" placeholder="Zip/Postal Code"></div>
                                                 </div>
 
-                                                <button class="btn btn--e-brand-b-2" type="submit">SAVE</button>
+                                                <button onclick="validatenumber()" class="btn btn--e-brand-b-2" type="submit">SAVE</button>
                                             </form>
                                         </div>
                                     </div>
@@ -1806,5 +1806,38 @@
             </div>
         </div>
     </noscript>
+
+
+    <script>
+         function validate(){
+            if (namevalidate()){
+                return true
+
+            }else{
+                return false
+            }
+        }
+        function validatenumber(){
+            let num=document.getElementById('reg-num').value;
+            if (num=='' || num.length !=10){
+                document.getElementById('num_err').innerHTML='Number should be 10 digit number';
+                return false
+
+            }
+            else if(/^[0-9]+$/.test(num) == false) {
+                document.getElementById("num_err").innerHTML = "please enter a valid number";
+                return false
+            }
+            else if(/^(?!000)\d+$/.test(num)== false){
+                document.getElementById("num_err").innerHTML = "please enter a valid number.. 000 at the start is not accepted by us";
+                return false
+
+            }
+            else{
+                document.getElementById("num_err").innerHTML = "";
+                return true
+            }
+        }
+    </script>
 </body>
 </html>
